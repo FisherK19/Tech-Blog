@@ -1,10 +1,14 @@
 const express = require('express');
-const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const path = require('path');
 
+// Import routes
+const routes = require('./controllers');
+// Remove the import for apiRoutes
+// const apiRoutes = require('./controllers/api');
+
 // helper function
-const helpers = require('./utils/helper');
+const helpers = require('./utils/helpers');
 
 // handlebars
 const exphbs = require('express-handlebars');
@@ -37,8 +41,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-// turn on routes
+// Use only the routes module
 app.use(routes);
+// Remove the mounting of apiRoutes
+// app.use('/api', apiRoutes);
 
 // turn on connection to db and server
 sequelize.sync({ force: false }).then(() => {
