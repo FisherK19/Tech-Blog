@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Comment } = require('../../models');
-const withAuth = require('../../utils/auth');
+const withAuth = require('../../utils/auth'); // Import the withAuth middleware
 
 // Route to get all comments
 router.get('/', async (req, res) => {
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Route to create a new comment
-router.post('/', withAuth, async (req, res) => {
+router.post('/', withAuth, async (req, res) => { // Use the withAuth middleware here
     try {
         const newComment = await Comment.create({
             comment_text: req.body.comment_text,
@@ -43,7 +43,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 // Route to update a comment by ID
-router.put('/:id', withAuth, async (req, res) => {
+router.put('/:id', withAuth, async (req, res) => { // Use the withAuth middleware here
     try {
         const updatedComment = await Comment.update(
             { comment_text: req.body.comment_text },
@@ -60,7 +60,7 @@ router.put('/:id', withAuth, async (req, res) => {
 });
 
 // Route to delete a comment by ID
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => { // Use the withAuth middleware here
     try {
         const deletedRows = await Comment.destroy({
             where: { id: req.params.id }
