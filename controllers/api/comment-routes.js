@@ -28,31 +28,20 @@ router.get('/:id', async (req, res) => {
 });
 
 // Route to create a new comment
-router.post('/', withAuth, async (req, res) => { 
+router.post('/', withAuth, async (req, res) => { // Use the withAuth middleware here
     try {
-        // Extract data from request body
-        const { comment_text, post_id } = req.body;
-        const user_id = req.session.user_id; 
-
-        // Validate data (example: check if comment text and post ID are provided)
-        if (!comment_text || !post_id) {
-            return res.status(400).json({ message: 'Comment text and post ID are required' });
-        }
-
-        // Create the comment in the database
         const newComment = await Comment.create({
-            comment_text,
-            post_id,
-            user_id
+            comment_text: req.body.comment_text,
+            post_id: req.body.post_id,
+            user_id: req.session.user_id 
         });
-
-        // Send response with newly created comment
         res.status(201).json(newComment);
     } catch (err) {
         console.error(err);
         res.status(400).json({ message: 'Bad request' });
     }
 });
+
 
 // Route to update a comment by ID
 router.put('/:id', withAuth, async (req, res) => { 
