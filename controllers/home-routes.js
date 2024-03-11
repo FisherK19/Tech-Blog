@@ -1,4 +1,5 @@
 // Route for the homepage
+const router = require('express').Router();
 router.get('/', async (req, res) => {
     try {
         const dbPostData = await Post.findAll({
