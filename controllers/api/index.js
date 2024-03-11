@@ -1,18 +1,16 @@
 const router = require('express').Router();
 
 // Import route modules
-const apiRoutes = require('../api');
-const homeRoutes = require('../home-routes');
-const dashboardRoutes = require('../dashboard-routes');
+const blogRoutes = require('./blog-routes');
+const commentRoutes = require('./comment-routes');
+const postRoutes = require('./post-routes');
+const userRoutes = require('./user-routes');
 
 // Middleware for API routes
-router.use('/api', apiRoutes);
-
-// Middleware for home routes
-router.use('/', homeRoutes);
-
-// Middleware for dashboard routes
-router.use('/dashboard', dashboardRoutes);
+router.use('/blogs', blogRoutes);
+router.use('/comments', commentRoutes);
+router.use('/posts', postRoutes);
+router.use('/users', userRoutes);
 
 // Middleware for handling 404 errors
 router.use((req, res) => {
