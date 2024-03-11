@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Comment } = require('../../models');
-const withAuth = require('../../utils/auth'); 
+const withAuth = require('../../utils/auth');
 
 // Route to get all comments
 router.get('/', async (req, res) => {
@@ -41,7 +41,6 @@ router.post('/', withAuth, async (req, res) => { // Use the withAuth middleware 
         res.status(400).json({ message: 'Bad request' });
     }
 });
-
 
 // Route to update a comment by ID
 router.put('/:id', withAuth, async (req, res) => { 

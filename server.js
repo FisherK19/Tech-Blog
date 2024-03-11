@@ -1,9 +1,14 @@
+// server.js
+
 const express = require('express');
 const sequelize = require('./config/connection');
 const path = require('path');
 
 // Import routes
-const routes = require('./controllers/api');
+const apiRoutes = require('./controllers/api');
+
+// Import authentication middleware
+const withAuth = require('./utils/auth');
 
 // helper function
 const helpers = require('./utils/helper');
@@ -39,8 +44,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-// Use only the routes module
-app.use(routes);
+// Use the API routes
+app.use('/api', withAuth, apiRoutes); // Add withAuth middleware here
 
 // turn on connection to db and server
 sequelize.sync({ force: false }).then(() => {
