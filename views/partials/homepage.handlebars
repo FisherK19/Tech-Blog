@@ -1,18 +1,6 @@
-// Route for the homepage
-router.get('/', async (req, res) => {
-    try {
-        const dbPostData = await Post.findAll({
-            attributes: ['id', 'title', 'content', 'created_at'],
-            include: [
-                { model: Comment, attributes: ['id', 'comment_text', 'created_at'], include: { model: User, attributes: ['username'] } },
-                { model: User, attributes: ['username'] }
-            ]
-        });
+<article class="post">
+    {{#each posts as |post| }}
+        {{> comments.postinfo post}}
+    {{/each}}
+</article>
 
-        const posts = dbPostData.map(post => post.get({ plain: true }));
-        res.render('home', { posts, loggedIn: req.session.loggedIn }); // Render home.handlebars
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
