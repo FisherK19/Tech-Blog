@@ -2,78 +2,89 @@ const router = require('express').Router();
 const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// Route to get all comments
-router.get('/', async (req, res) => {
-    try {
-        const comments = await Comment.findAll();
-        res.json(comments);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
+//route to get all the comments
+router.get('/', (req, res) => {
+    Comment.findAll({})
+        .then(dbCommentData => res.json(dbCommentData))
+        .catch(err => {
+            console.log(err); 
+            res.status(500).json(err); 
+        })
+});
+
+//route to get 1 comment
+router.get('/:id', (req, res) => {
+    Comment.findAll({
+            where: { 
+                id: req.params.id}
+        })
+        .then(dbCommentData => res.json(dbCommentData))
+        .catch(err => {
+            console.log(err); 
+            res.status(500).json(err); 
+        })
+});
+
+
+//route to create a comment
+router.post('/', withAuth, (req, res) => {
+    // check session
+    if (req.session) {
+    Comment.create({
+        comment_text: req.body.comment_text, 
+        post_id: req.body.post_id,
+        // use the id from the session
+        user_id: req.session.user_id,
+    })
+        .then(dbCommentData => res.json(dbCommentData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        })
     }
 });
 
-// Route to get a single comment by ID
-router.get('/:id', async (req, res) => {
-    try {
-        const comment = await Comment.findByPk(req.params.id);
-        if (!comment) {
-            return res.status(404).json({ message: 'Comment not found' });
+
+//route to update a comment
+router.put('/:id', withAuth, (req, res) => {
+    Comment.update({
+        comment_text: req.body.comment_text
+      },
+      {
+        where: {
+          id: req.params.id
         }
-        res.json(comment);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
-// Route to create a new comment
-router.post('/', withAuth, async (req, res) => { // Use the withAuth middleware here
-    try {
-        const newComment = await Comment.create({
-            comment_text: req.body.comment_text,
-            post_id: req.body.post_id,
-            user_id: req.session.user_id 
-        });
-        res.status(201).json(newComment);
-    } catch (err) {
-        console.error(err);
-        res.status(400).json({ message: 'Bad request' });
-    }
-});
-
-// Route to update a comment by ID
-router.put('/:id', withAuth, async (req, res) => { 
-    try {
-        const updatedComment = await Comment.update(
-            { comment_text: req.body.comment_text },
-            { where: { id: req.params.id } }
-        );
-        if (updatedComment[0] === 0) {
-            return res.status(404).json({ message: 'Comment not found' });
+    }).then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({ message: 'No comment found with this id' });
+            return;
         }
-        res.json(updatedComment);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+        res.json(dbCommentData);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
 });
 
-// Route to delete a comment by ID
-router.delete('/:id', withAuth, async (req, res) => { 
-    try {
-        const deletedRows = await Comment.destroy({
-            where: { id: req.params.id }
-        });
-        if (deletedRows === 0) {
-            return res.status(404).json({ message: 'Comment not found' });
+
+//route to delete a comment
+router.delete('/:id', withAuth, (req, res) => {
+    Comment.destroy({
+        where: {
+            id: req.params.id 
         }
-        res.json({ message: 'Comment deleted successfully' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Internal server error' });
-    }
+    }).then(dbCommentData => {
+        if (!dbCommentData) {
+            res.status(404).json({ message: 'No comment found with this id' });
+            return;
+        }
+        res.json(dbCommentData);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
 });
+
 
 module.exports = router;
 

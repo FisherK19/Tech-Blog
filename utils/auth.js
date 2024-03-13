@@ -1,15 +1,14 @@
-// auth.js
-
-// Middleware function to check if the user is authenticated
 const withAuth = (req, res, next) => {
-    // Check if the user is authenticated using any method you prefer
-    if (req.session && req.session.user_id) {
-        // User is authenticated, proceed to the next middleware/route handler
-        next();
-    } else {
-        // User is not authenticated, send an unauthorized response
-        res.status(401).json({ message: 'Unauthorized' });
-    }
+  // Check if the user is logged in
+  if (!req.session.loggedIn) {
+      // If not logged in, redirect to the login page
+      res.redirect('/login');
+  } else {
+      // If logged in, continue to the next middleware or route handler
+      next();
+  }
 };
-
 module.exports = withAuth;
+
+
+  

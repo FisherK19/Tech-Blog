@@ -1,6 +1,8 @@
-module.exports = {
-    format_date: date => {
-        return `${new Date(date).getMonth() + 1}/${new Date(date).getDate()}/${new Date(date).getFullYear()}`;
-      },
+// helper.js
 
-}
+// Function to format a date in a specific format
+const formatDate = (date) => {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+};
+
+module.exports = { formatDate };

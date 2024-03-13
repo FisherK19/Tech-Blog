@@ -1,13 +1,11 @@
 const router = require('express').Router();
 
 // Import route modules
-const blogRoutes = require('./blog-routes');
 const commentRoutes = require('./comment-routes');
 const postRoutes = require('./post-routes');
 const userRoutes = require('./user-routes');
 
 // Middleware for API routes
-router.use('/blogs', blogRoutes);
 router.use('/comments', commentRoutes);
 router.use('/posts', postRoutes);
 router.use('/users', userRoutes);
