@@ -2,6 +2,10 @@ const express = require('express');
 const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const path = require('path');
+const bcrypt = require('bcrypt');
+
+// Import the User model
+const { User } = require('./models');
 
 // Helper function
 const helpers = require('./utils/helper');
@@ -10,7 +14,8 @@ const helpers = require('./utils/helper');
 const exphbs = require('express-handlebars');
 const hbs = exphbs.create({
   helpers,
-  layoutsDir: path.join(__dirname, 'views', 'layouts') 
+  layoutsDir: path.join(__dirname, 'views', 'layouts'),
+  defaultLayout: 'main' // Specify the default layout file
 });
 
 // Session connection to Sequelize database
@@ -60,15 +65,46 @@ app.get('/dashboard', (req, res, next) => {
 app.get('/login', (req, res, next) => {
   // Handle '/login' route
   try {
-    res.render('login'); // Render the corresponding Handlebars template
+    res.render('login', { layout: 'main' }); // Specify the layout explicitly
   } catch (error) {
     next(error); // Pass the error to the error handling middleware
   }
 });
 
+// Handle login form submission
+app.post('/login', async (req, res) => {
+  // Logic for handling login
+});
+
 app.get('/logout', (req, res) => {
   // Handle '/logout' route
   // Implement logout logic here
+  req.session.destroy(() => {
+    res.redirect('/login'); // Redirect to the login page after logout
+  });
+});
+
+// Handle sign-up form submission
+app.post('/signup', async (req, res) => {
+  try {
+    // Hash the password before saving it to the database
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+    // Create a new user record in the database
+    const newUser = await User.create({
+      username: req.body.username,
+      password: hashedPassword,
+    });
+
+    // Set the loggedIn session variable to true
+    req.session.loggedIn = true;
+    req.session.user_id = newUser.id;
+
+    res.redirect('/dashboard'); // Redirect to the dashboard after sign-up
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error signing up');
+  }
 });
 
 // Turn on routes
