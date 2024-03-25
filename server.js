@@ -5,6 +5,8 @@ const sequelize = require('./config/connection');
 const bcrypt = require('bcrypt');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const dotenv = require('dotenv');
+const fs = require('fs');
 
 // Import models and routes
 const { User } = require('./models');
@@ -39,6 +41,10 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 // Static routes for dashboard, login, etc.
+app.get('/signup', (req, res) => {
+  res.render('partials/signup');
+});
+
 app.get('/dashboard', (req, res) => {
   res.render('dashboard');
 });
