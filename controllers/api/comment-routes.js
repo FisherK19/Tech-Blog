@@ -1,4 +1,4 @@
-const path = require('path'); // Add this line at the top of your file
+const path = require('path'); 
 
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');

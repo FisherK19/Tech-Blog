@@ -2,12 +2,13 @@ const sequelize = require('../config/connection');
 const { Post, User, Comment } = require('../models');
 const router = require('express').Router();
 
+// Existing home route
 router.get('/', (req, res) => {
   Post.findAll({
     attributes: [
       'id',
       'title',
-      'content',
+      'body', 
       'created_at'
     ],
     include: [
@@ -36,7 +37,17 @@ router.get('/', (req, res) => {
   });
 });
 
-// Other routes...
+// Login route
+router.get('/login', (req, res) => {
+  // Render the login page
+  res.render('login');
+});
+
+// Signup route
+router.get('/signup', (req, res) => {
+  // Render the signup page
+  res.render('signup');
+});
 
 module.exports = router;
 

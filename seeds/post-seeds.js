@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.bulkInsert('Posts', [
       {
         title: 'Sample Post 1',
-        content: 'This is a sample post content.',
+        body: 'This is a sample post content.',
         user_id: 1,
         createdAt: new Date(),
         updatedAt: new Date()
