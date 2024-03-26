@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -5,13 +6,10 @@ const sequelize = require('./config/connection');
 const bcrypt = require('bcrypt');
 const exphbs = require('express-handlebars');
 const path = require('path');
-const dotenv = require('dotenv');
-const fs = require('fs');
-
+const cors = require('cors');
 // Import models and routes
 const { User } = require('./models');
 const routes = require('./controllers');
-
 // Helper functions
 const helpers = require('./utils/helper');
 
@@ -20,27 +18,34 @@ const PORT = process.env.PORT || 3001;
 
 // Session configuration
 const sess = {
-  secret: 'Super secret secret',
+  secret: process.env.SESSION_SECRET, // Ensure you have SESSION_SECRET in your .env file
   cookie: { maxAge: 3600000 }, // 1 hour
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({
-    db: sequelize
-  })
+    db: sequelize,
+  }),
 };
 
+app.use(cors());
 app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Handlebars setup
-const hbs = exphbs.create({ helpers, layoutsDir: path.join(__dirname, 'views/layouts'), defaultLayout: 'main' });
+const hbs = exphbs.create({
+  helpers: {
+    formatDate: helpers.formatDate, 
+  },
+  layoutsDir: path.join(__dirname, 'views/layouts'),
+  defaultLayout: 'main',
+});
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Static routes for dashboard, login, etc.
+// Static routes
 app.get('/signup', (req, res) => {
   res.render('partials/signup');
 });
@@ -53,11 +58,14 @@ app.get('/login', (req, res) => {
   res.render('login', { layout: 'main' });
 });
 
-// Signup and login post requests
+// Signup request
 app.post('/signup', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = await User.create({ username: req.body.username, password: hashedPassword });
+    const newUser = await User.create({
+      username: req.body.username,
+      password: hashedPassword,
+    });
 
     req.session.loggedIn = true;
     req.session.user_id = newUser.id;
@@ -69,12 +77,15 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+// Login request
 app.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ where: { username: req.body.username } });
+
     if (user && await bcrypt.compare(req.body.password, user.password)) {
       req.session.loggedIn = true;
       req.session.user_id = user.id;
+
       res.redirect('/dashboard');
     } else {
       res.status(401).send('Incorrect username or password');
@@ -85,22 +96,16 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/login');
-  });
-});
-
 // Use routes from controllers
 app.use(routes);
 
 // Global error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
-// Step 5: Start the Server
+// Start the Server
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 });

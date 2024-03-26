@@ -2,11 +2,11 @@ async function deletePostHandler(event) {
     event.preventDefault();
 
     // Extract the post ID from the current URL
-    const postId = window.location.pathname.split('/').pop();
+    const post_id = window.location.pathname.split('/').pop();
 
     try {
         // Send a DELETE request to delete the post
-        const response = await fetch(`/api/posts/${postId}`, {
+        const response = await fetch(`/api/posts/${post_id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,4 +29,8 @@ async function deletePostHandler(event) {
 }
 
 // Add an event listener to the delete post button for handling click events
-document.querySelector('.delete-post-btn').addEventListener('click', deletePostHandler);
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.delete-post-btn').forEach(button => {
+        button.addEventListener('click', deletePostHandler);
+    });
+});

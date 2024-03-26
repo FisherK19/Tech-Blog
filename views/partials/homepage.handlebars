@@ -1,11 +1,14 @@
-<div class="post-info">
-    <h2>{{post.title}}</h2>
-    <p>{{post.content}}</p>
-    <p>{{post.User.username}}</p>
-    <ul class="comments">
-        {{#each post.Comments as |comment| }}
-            <li>{{comment.comment_text}} by {{comment.User.username}}</li>
-        {{/each}}
-    </ul>
-</div>
-
+<article class="post">
+    {{#each posts}}
+        <div class="card">
+            <h3 class="card-header">{{ title }}</h3>
+            <div class="card-body">
+                <p>{{ body }}</p>
+                <p>Created by: {{ user.username }}</p>
+                <p>Created at: {{ formatDate created_at }}</p>
+                <a href="/edit/{{ id }}" class="btn btn-primary">Edit</a>
+                <button class="btn btn-danger delete-btn" data-id="{{ id }}">Delete</button>
+            </div>
+        </div>
+    {{/each}}
+</article>

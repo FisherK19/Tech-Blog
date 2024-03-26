@@ -9,54 +9,59 @@ router.get('/signup', (req, res) => {
 });
 
 // GET /api/users - retrieve all users
-router.get('/', (req, res) => {
-    User.findAll({
-        attributes: { exclude: ['password'] }
-    })
-    .then(dbUserData => res.json(dbUserData))
-    .catch(err => {
+router.get('/', async (req, res) => {
+    try {
+        const users = await User.findAll({
+            attributes: { exclude: ['password'] }
+        });
+        res.json(users);
+    } catch (err) {
         console.error(err); 
         res.status(500).json(err);
-    });
+    }
 });
 
-// GET /api/users/1 - retrieve a single user by id
-router.get('/:id', (req, res) => {
-    User.findOne({
-        attributes: { exclude: ['password'] },
-        where: {
-            id: req.params.id
-        },
-        include: [
-            {
-                model: Post,
-                attributes: ['id', 'title', 'content', 'created_at']
-            },
-            {
-                model: Comment,
-                attributes: ['id', 'comment_text', 'created_at'],
-                include: {
+// GET /api/users/:id - retrieve a single user by id
+router.get('/:id', async (req, res) => {
+    try {
+        const userData = await User.findByPk(req.params.id, {
+            attributes: { exclude: ['password'] },
+            include: [
+                {
                     model: Post,
-                    attributes: ['title']
+                    attributes: ['id', 'title', 'body', 'created_at'],
+                    include: [
+                        {
+                            model: Comment,
+                            attributes: ['id', 'comment_text', 'created_at'],
+                            include: {
+                                model: User,
+                                attributes: ['username']
+                            }
+                        }
+                    ]
+                },
+                {
+                    model: Comment,
+                    attributes: ['id', 'comment_text', 'created_at'],
+                    include: {
+                        model: Post,
+                        attributes: ['title']
+                    }
                 }
-            },
-            {
-                model: Post,
-                attributes: ['title'],
-            }
-        ]
-    })
-    .then(dbUserData => {
-        if (!dbUserData) {
+            ]
+        });
+
+        if (!userData) {
             res.status(404).json({ message: 'No user found with this id' });
             return;
         }
-        res.json(dbUserData);
-    })
-    .catch(err => {
+
+        res.json(userData);
+    } catch (err) {
         console.error(err);
         res.status(500).json(err);
-    });
+    }
 });
 
 // POST /api/users - create a new user
@@ -120,45 +125,47 @@ router.post('/logout', (req, res) => {
     }
 });
 
-// PUT /api/users/1 - update a user's information
-router.put('/:id', (req, res) => {
-    User.update(req.body, {
-        individualHooks: true,
-        where: {
-            id: req.params.id
-        }
-    })
-    .then(dbUserData => {
-        if (!dbUserData[0]) {
+// PUT /api/users/:id - update a user's information
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedUser = await User.update(req.body, {
+            individualHooks: true,
+            where: {
+                id: req.params.id
+            }
+        });
+
+        if (!updatedUser[0]) {
             res.status(404).json({ message: 'No user found with this id'});
             return;
         }
-        res.json(dbUserData);
-    })
-    .catch(err => {
+
+        res.json({ message: 'User information updated successfully' });
+    } catch (err) {
         console.error(err);
         res.status(500).json(err);
-    });
+    }
 });
 
-// DELETE /api/users/1 - delete a user
-router.delete('/:id', (req, res) => {
-    User.destroy({
-        where: {
-            id: req.params.id
-        }
-    })
-    .then(dbUserData => {
-        if (!dbUserData) {
+// DELETE /api/users/:id - delete a user
+router.delete('/:id', async (req, res) => {
+    try {
+        const deletedUser = await User.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+
+        if (!deletedUser) {
             res.status(404).json({ message: 'No user found with this id'});
             return;
         }
-        res.json(dbUserData);
-    })
-    .catch(err => {
+
+        res.json({ message: 'User deleted successfully' });
+    } catch (err) {
         console.error(err);
         res.status(500).json(err);
-    });
+    }
 });
 
 module.exports = router;

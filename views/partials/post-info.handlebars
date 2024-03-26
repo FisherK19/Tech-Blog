@@ -1,9 +1,9 @@
 <div class="card">
   <h3 class="card-header">{{ title }}</h3>
   <div class="card-body">
-    <p>{{ content }}</p>
+    <p>{{ body }}</p>
     <p>Created by: {{ user.username }}</p>
-    <p>Created at: {{ format_date created_at }}</p>
+    <p>Created at: {{ formatDate created_at }}</p>
     {{#if comments.length}}
       <h4>Comments:</h4>
       <ul class="list-group">
@@ -11,7 +11,7 @@
           <li class="list-item">
             <p>{{ comment_text }}</p>
             <p>Comment by: {{ user.username }}</p>
-            <p>Commented at: {{ format_date created_at }}</p>
+            <p>Commented at: {{ formatDate created_at }}</p> 
           </li>
         {{/each}}
       </ul>
@@ -20,3 +20,4 @@
     {{/if}}
   </div>
 </div>
+
