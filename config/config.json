@@ -1,25 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password": "${process.env.DB_PASSWORD}",
-    "database": "tech_blog",
-    "host": "localhost",
+    "password": null,
+    "database": "tech_blog_dev",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "${process.env.DB_PASSWORD}",
-    "database": "database_test",
-    "host": "localhost",
+    "password": null,
+    "database": "tech_blog_test",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": "${process.env.DB_PASSWORD}",
-    "database": "tech_blog",
-    "host": "localhost",
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql"
   }
 }
+
 
 
