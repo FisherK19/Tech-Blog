@@ -14,8 +14,12 @@
     "sequelize": "^6.37.1",
     "sequelize-cli": "^6.0.0"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "start": "node server.js",
     "prestart": "sequelize db:migrate"
   }
 }
+
