@@ -3,10 +3,10 @@ const { Post, User, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // GET all posts
-router.get('/', (req, res) => {
+router.get('/api/posts', (req, res) => {
     console.log('Fetching posts...');
     Post.findAll({
-        attributes: ['id', 'title', 'body', 'created_at'],
+        attributes: ['id', 'title', 'body', 'created_at'], 
         order: [['created_at', 'DESC']],
         include: [
             {
@@ -23,7 +23,14 @@ router.get('/', (req, res) => {
             }
         ]
     })
-    .then(dbPostData => res.json(dbPostData))
+    .then(dbPostData => {
+        const posts = dbPostData.map(post => post.get({ plain: true }));
+        console.log('Rendering homepage with posts:', posts);
+        res.render('partials/homepage', { 
+            posts, 
+            loggedIn: req.session.loggedIn 
+        });
+    })
     .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -67,7 +74,7 @@ router.get('/:id', (req, res) => {
 
 // Create a post
 router.post('/', withAuth, (req, res) => {
-    console.log(req.body); // Log the request body
+    console.log(req.body); 
     Post.create({
         title: req.body.title,
         body: req.body.body,

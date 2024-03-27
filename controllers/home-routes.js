@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
     .then(dbPostData => {
         const posts = dbPostData.map(post => post.get({ plain: true }));
         console.log('Rendering homepage with posts:', posts);
-        res.render('homepage', { // Adjusted view path based on your structure
+        res.render('partials/homepage', { 
             posts, 
             loggedIn: req.session.loggedIn 
         });

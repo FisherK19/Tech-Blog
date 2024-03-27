@@ -12,6 +12,8 @@ const { User } = require('./models');
 const routes = require('./controllers');
 // Helper functions
 const helpers = require('./utils/helper');
+const withAuth = require('./utils/auth');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -96,6 +98,20 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('api/posts', withAuth, async (req, res) => {
+  try {
+    const newPost = await Post.create({
+      title: req.body.title,
+      body: req.body.body,
+      user_id: req.session.user_id
+    });
+
+    res.status(201).json(newPost); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to create post' });
+  }
+});
 // Use routes from controllers
 app.use(routes);
 
