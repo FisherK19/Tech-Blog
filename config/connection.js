@@ -4,7 +4,7 @@ require('dotenv').config();
 let sequelize;
 
 if (process.env.JAWSDB_URL) {
-  // For deployment
+  // For deployment on Heroku
   sequelize = new Sequelize(process.env.JAWSDB_URL);
 } else {
   // For local development
@@ -16,4 +16,5 @@ if (process.env.JAWSDB_URL) {
 }
 
 module.exports = sequelize;
+
 
