@@ -1,3 +1,5 @@
+// Assuming your Sequelize model file for 'Post' is named 'post.js'
+
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
@@ -8,11 +10,11 @@ Post.init({
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false
+    allowNull: false 
   },
   title: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true 
   },
   body: {
     type: DataTypes.TEXT,
@@ -29,14 +31,12 @@ Post.init({
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
-    field: 'created_at' 
+    defaultValue: DataTypes.NOW
   },
   updated_at: {
     type: DataTypes.DATE,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
-    field: 'updated_at' 
+    defaultValue: DataTypes.NOW
   }
 }, {
   sequelize,
@@ -46,3 +46,4 @@ Post.init({
 });
 
 module.exports = Post;
+
