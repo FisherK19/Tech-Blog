@@ -2,14 +2,14 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    // Make sure DataTypes is used correctly here
-    await queryInterface.addColumn('TableName', 'ColumnName', {
-      type: Sequelize.DataTypes.STRING, 
+    // Correct usage of DataTypes
+    await queryInterface.addColumn('posts', 'newColumn', {
+      type: Sequelize.DataTypes.STRING,
       allowNull: true,
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn('TableName', 'ColumnName');
+    await queryInterface.removeColumn('posts', 'newColumn');
   }
 };
