@@ -1,7 +1,6 @@
 async function newFormHandler(event) {
   event.preventDefault();
 
-  // Make sure these selectors match the 'name' attributes in your HTML form
   const titleInput = document.querySelector('input[name="title"]').value;
   const bodyInput = document.querySelector('textarea[name="body"]').value;  
 
