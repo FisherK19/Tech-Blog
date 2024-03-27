@@ -1,41 +1,40 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('posts', {
       id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
       title: {
-        type: Sequelize.STRING,
+        type: Sequelize.DataTypes.STRING,
         allowNull: false
       },
       body: {
-        type: Sequelize.TEXT,
+        type: Sequelize.DataTypes.TEXT,
         allowNull: false
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DataTypes.INTEGER,
         allowNull: true,
         references: {
-          model: 'users',
+          model: 'users', 
           key: 'id'
         }
       },
       createdAt: {
-        type: DataTypes.DATE,
+        type: Sequelize.DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         field: 'createdAt' 
       },
-      
       updatedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+        field: 'updatedAt'
       }
     });
   },
