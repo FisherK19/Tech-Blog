@@ -16,25 +16,25 @@ module.exports = {
         type: Sequelize.DataTypes.TEXT,
         allowNull: false
       },
-      userId: {
+      user_id: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true,
         references: {
-          model: 'users', 
+          model: 'user',
           key: 'id'
         }
       },
-      createdAt: {
+      created_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-        field: 'createdAt' 
+        field: 'created_at'
       },
-      updatedAt: {
+      updated_at: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
-        field: 'updatedAt'
+        field: 'updated_at'
       }
     });
   },
@@ -43,3 +43,4 @@ module.exports = {
     await queryInterface.dropTable('posts');
   }
 };
+
