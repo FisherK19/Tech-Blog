@@ -1,18 +1,15 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.changeColumn('posts', 'title', {
-      type: Sequelize.STRING,
-      allowNull: true, // Allow NULL values for the 'title' field
+  async up(queryInterface, Sequelize) {
+    // Make sure DataTypes is used correctly here
+    await queryInterface.addColumn('TableName', 'ColumnName', {
+      type: Sequelize.DataTypes.STRING, 
+      allowNull: true,
     });
   },
 
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.changeColumn('posts', 'title', {
-      type: Sequelize.STRING,
-      allowNull: false, // Restore NOT NULL constraint if needed
-    });
+  async down(queryInterface, Sequelize) {
+    await queryInterface.removeColumn('TableName', 'ColumnName');
   }
 };
-
