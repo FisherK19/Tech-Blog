@@ -7,10 +7,11 @@
         <label class="form-label" for="post-body">Body</label>
         <input name="post-body" type="text" value="{{post.body}}" class="form-input" />
 
-        <button type="submit" class="btn btn-primary update-post-btn">Update Post</button>
-        <a href="/delete-post/{{post.id}}" class="btn btn-danger delete-post-btn">Delete Post</a>
+        <button type="submit" class="btn">Update Post</button>
+        <button type="button" class="delete-post-btn btn">Delete Post</button>
     </form>
 </div>
+
 
 <script src="/js/edit-post.js"></script>
 <script src="/js/delete-post.js"></script>

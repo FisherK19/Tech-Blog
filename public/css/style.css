@@ -106,6 +106,32 @@ p {
   transform: translate(0, 0);
   box-shadow: 2px 2px var(--dark);
 }
+.btn-group {
+  display: flex;
+  justify-content: start; /* Aligns buttons to the start of the container */
+  gap: 10px; /* Adjust the space between the buttons */
+}
+
+.btn {
+  padding: 10px 15px; /* Adjust the padding as needed */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Removes underline from 'a' elements */
+  display: inline-block; /* Allows width to be set */
+  width: auto; /* Width adjusts to content, set a specific width if needed */
+  text-align: center; /* Ensures text in the button is centered */
+}
+
+.btn-primary {
+  background-color: #4c4d4e; /* Bootstrap primary color */
+  color: white;
+}
+
+.btn-danger {
+  background-color: #4c4d4e; /* Bootstrap danger color */
+  color: white;
+}
 
 .hero {
   padding: 3% 4%;

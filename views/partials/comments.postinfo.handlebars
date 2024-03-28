@@ -1,15 +1,23 @@
 <div class="comments">
   {{#each this}}
     <div class="card">
-        <h3 class="card-header"></h3>
+        <h3 class="card-header">{{this.User.username}}</h3>
         <section class="comment card-body">
             <div class="text">
                 {{this.comment_text}}
             </div>
             <div class="meta">
-                -{{this.User.username}}, {{format_date this.created_at}}
+                - {{this.User.username}}, {{format_date this.created_at}}
             </div>
         </section>
     </div>
   {{/each}}
 </div>
+
+<!-- Comment Form -->
+<form id="new-comment-form" class="new-comment-form">
+    <textarea name="comment_text" class="form-input comment-textarea" placeholder="Add a comment..."></textarea>
+    <button type="submit" class="btn btn-primary submit-comment-btn">Post Comment</button>
+</form>
+
+<script src="/js/comment.js"></script>

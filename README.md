@@ -35,7 +35,8 @@ The Tech Blog is a web application that allows users to create, read, update, an
 2. Open your web browser and navigate to `http://localhost:3001` to access the Tech Blog.
 
 ## Screenshots
-![Homepage](/public/images/tech-blog%20dashboard.png)
+![Homepage](/public/images/tech-blog%20homepage.png)
+![Post](/public/images/tech-blog%20example.png)
 ![Dashboard](/public/images/tech-blog%20dashboard.png)
 
 ## License
