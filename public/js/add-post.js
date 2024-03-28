@@ -25,12 +25,4 @@ async function newFormHandler(event) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const newPostForm = document.querySelector('#new-post-form');
-  if (newPostForm) {
-    newPostForm.addEventListener('submit', newFormHandler);
-  } else {
-    console.error('New post form not found');
-  }
-});
 
