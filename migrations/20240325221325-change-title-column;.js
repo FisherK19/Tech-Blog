@@ -1,18 +1,15 @@
 'use strict';
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.changeColumn('post', 'title', {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.addColumn('post', 'title', {
       type: Sequelize.STRING,
-      allowNull: true, // or false depending on your requirements
+      allowNull: false,
     });
   },
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.changeColumn('post', 'title', {
-      type: Sequelize.STRING,
-      allowNull: false, // Restore NOT NULL constraint if needed
-    });
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.removeColumn('post', 'title');
   }
 };
 

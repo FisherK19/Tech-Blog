@@ -73,7 +73,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Create a post
-router.post('/', withAuth, (req, res) => {
+router.post('/api/posts', withAuth, (req, res) => {
     console.log(req.body); 
     Post.create({
         title: req.body.title,

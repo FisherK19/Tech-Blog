@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/users - create a new user
-router.post('/', async (req, res) => {
+router.post('/api/posts', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUser = await User.create({

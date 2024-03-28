@@ -1,5 +1,3 @@
-// Assuming your Sequelize model file for 'Post' is named 'post.js'
-
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
