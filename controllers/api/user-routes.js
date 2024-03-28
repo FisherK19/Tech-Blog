@@ -25,37 +25,37 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const userData = await User.findByPk(req.params.id, {
-            attributes: { exclude: ['password'] },
-            include: [
-                {
-                    model: Post,
-                    attributes: ['id', 'title', 'body', 'created_at'],
-                    include: [
-                        {
-                            model: Comment,
-                            attributes: ['id', 'comment_text', 'created_at'],
-                            include: {
-                                model: User,
-                                attributes: ['username']
-                            }
-                        }
-                    ]
-                },
-                {
-                    model: Comment,
-                    attributes: ['id', 'comment_text', 'created_at'],
-                    include: {
-                        model: Post,
-                        attributes: ['title']
-                    }
-                }
-            ]
-        });
+      attributes: { exclude: ['password'] },
+   include: [
+        {
+       model: Post,
+      attributes: ['id', 'title', 'body', 'created_at'],
+     include: [
+     {
+     model: Comment,
+     attributes: ['id', 'comment_text', 'created_at'],
+     include: {
+    model: User,
+    attributes: ['username']
+    }
+     }
+    ]
+    },
+    {
+    model: Comment,
+     attributes: ['id', 'comment_text', 'created_at'],
+     include: {
+     model: Post,
+    attributes: ['title']
+         }
+    }
+         ]
+     });
 
-        if (!userData) {
+    if (!userData) {
             res.status(404).json({ message: 'No user found with this id' });
             return;
-        }
+    }
 
         res.json(userData);
     } catch (err) {
@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/users - create a new user
-router.post('/api/posts', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newUser = await User.create({

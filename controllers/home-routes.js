@@ -39,7 +39,7 @@ router.get('/', (req, res) => {
 // Login route
 router.get('/login', (req, res) => {
     if (req.session.loggedIn) {
-        res.redirect('/');
+        res.redirect('/api/posts');
         return;
     }
     res.render('login');
@@ -74,7 +74,7 @@ router.post('/login', async (req, res) => {
 // Signup route
 router.get('/signup', (req, res) => {
     if (req.session.loggedIn) {
-        res.redirect('/');
+        res.redirect('/api/posts');
         return;
     }
     res.render('signup');

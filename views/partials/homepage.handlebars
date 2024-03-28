@@ -6,8 +6,6 @@
                 <p>{{ body }}</p>
                 <p>Created by: {{ user.username }}</p>
                 <p>Created at: {{ formatDate created_at }}</p>
-                <a href="/edit/{{ id }}" class="btn btn-primary">Edit</a>
-                <button class="btn btn-danger delete-btn" data-id="{{ id }}">Delete</button>
             </div>
         </div>
     {{/each}}

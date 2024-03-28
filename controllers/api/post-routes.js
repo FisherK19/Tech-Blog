@@ -3,8 +3,7 @@ const { Post, User, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // GET all posts
-router.get('/api/posts', (req, res) => {
-    console.log('Fetching posts...');
+router.get('/', (req, res) => {
     Post.findAll({
         attributes: ['id', 'title', 'body', 'created_at'], 
         order: [['created_at', 'DESC']],
@@ -73,7 +72,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Create a post
-router.post('/api/posts', withAuth, (req, res) => {
+router.post('/', withAuth, (req, res) => {
     console.log(req.body); 
     Post.create({
         title: req.body.title,
