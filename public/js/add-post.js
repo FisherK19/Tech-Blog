@@ -19,10 +19,18 @@ async function newFormHandler(event) {
 
   if (response.ok) {
     console.log('Post created, redirecting to homepage');
-    document.location.replace('/'); // Redirect to the homepage
+    document.location.replace('/'); 
   } else {
     alert('Failed to create post: ' + await response.text());
   }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const newPostForm = document.querySelector('#new-post-form');
+  if (newPostForm) {
+    newPostForm.addEventListener('submit', newFormHandler);
+  } else {
+    console.error('New post form not found');
+  }
+});
 

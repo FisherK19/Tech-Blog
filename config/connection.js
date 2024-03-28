@@ -12,7 +12,7 @@ if (process.env.JAWSDB_URL) {
     host: process.env.DB_HOST,
     dialect: 'mysql',
     port: 3306,
-    logging: console.log, // Add this line for debug output
+    logging: console.log, 
   });
 }
 
