@@ -4,5 +4,7 @@ node_modules/
 # Environment variables file
 .env
 
+# Ignore configuration files with sensitive information
+config/config.json
 
 

@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "Ollie2017*",
     "database": "tech_blog",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql",
     "operatorsAliases": false
   },
@@ -20,6 +20,7 @@
     "dialect": "mysql"
   }
 }
+
 
 
 
