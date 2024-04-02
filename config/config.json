@@ -5,7 +5,12 @@
     "database": "tech_blog",
     "host": "localhost",
     "dialect": "mysql",
-    "operatorsAliases": false
+    "operatorsAliases": false,
+    "seeders-path": "/seeders",
+    "seeder-order": [
+      "UserSeeder.js",
+      "CommentSeeder.js"
+    ]
   },
   "test": {
     "username": "root",

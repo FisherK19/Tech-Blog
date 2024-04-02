@@ -11,11 +11,12 @@ Comment.init({
     },
     comment_text: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-            len: [3] 
+            len: [3]
         }
     },
-    user_id: { // Changed to snake_case to match the database
+    user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -23,19 +24,21 @@ Comment.init({
             key: 'id'
         }
     },
-    post_id: { // Changed to snake_case to match the database
+    post_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'post', 
+            model: 'post',
             key: 'id'
         }
     }
 }, {
     sequelize,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'comment'
+    modelName: 'comment',
+    tableName: 'comments',
+    timestamps: true,
+    underscored: true
 });
 
 module.exports = Comment;
+

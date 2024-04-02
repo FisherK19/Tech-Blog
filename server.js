@@ -98,7 +98,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('api/posts', withAuth, async (req, res) => {
+app.post('/api/posts', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
       title: req.body.title,
