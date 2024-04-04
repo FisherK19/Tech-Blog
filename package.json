@@ -1,13 +1,12 @@
 {
-  "name": "tech-blog", 
-  "version": "1.0.0", 
-  "description": "A tech blog application built with Node.js, Express, and Sequelize.", 
-  "main": "server.js", 
+  "name": "tech-blog",
+  "version": "1.0.0",
+  "description": "A tech blog application built with Node.js, Express, and Sequelize.",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js", 
-    "migrate": "sequelize db:migrate", 
-    "seed": "sequelize db:seed:all", 
-    "postinstall": "npm run migrate" 
+    "start": "node server.js",
+    "migrate": "sequelize db:migrate --env production",
+    "seed": "sequelize db:seed:all"
   },
   "engines": {
     "node": "20.x"

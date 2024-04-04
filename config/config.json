@@ -1,24 +1,17 @@
 {
   "development": {
     "username": "root",
-    "password": "Ollie2017*",
-    "database": "tech_blog",
-    "host": "localhost",
-    "dialect": "mysql",
-    "operatorsAliases": false,
-    "seeders-path": "/seeders",
-    "seeder-order": [
-      "UserSeeder.js",
-      "CommentSeeder.js"
-    ]
+    "password": null,
+    "database": "tech_blog_dev",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "tech_blog_test",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "mysql"
   },
   "production": {
     "use_env_variable": "JAWSDB_URL",
