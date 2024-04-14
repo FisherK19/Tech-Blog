@@ -12,7 +12,7 @@ Post.init({
   },
   title: {
     type: DataTypes.STRING,
-    allowNull: true 
+    allowNull: false 
   },
   body: {
     type: DataTypes.TEXT,
@@ -25,16 +25,6 @@ Post.init({
       model: 'user',
       key: 'id'
     }
-  },
-  created_at: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    allowNull: false,
-    defaultValue: DataTypes.NOW
   }
 }, {
   sequelize,
