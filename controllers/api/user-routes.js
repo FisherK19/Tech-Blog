@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../../models');
+const { user, post, comment } = require('../../models');
 const bcrypt = require('bcrypt');
 
 // Serve the signup form on GET /signup
@@ -11,7 +11,7 @@ router.get('/signup', (req, res) => {
 // GET /api/users - retrieve all users
 router.get('/', async (req, res) => {
     try {
-        const users = await User.findAll({
+        const users = await user.findAll({
             attributes: { exclude: ['password'] }
         });
         res.json(users);
@@ -24,28 +24,28 @@ router.get('/', async (req, res) => {
 // GET /api/users/:id - retrieve a single user by id
 router.get('/:id', async (req, res) => {
     try {
-        const userData = await User.findByPk(req.params.id, {
+        const userData = await user.findByPk(req.params.id, {
       attributes: { exclude: ['password'] },
    include: [
         {
-       model: Post,
+       model: post,
       attributes: ['id', 'title', 'body', 'created_at'],
      include: [
      {
-     model: Comment,
+     model: comment,
      attributes: ['id', 'comment_text', 'created_at'],
      include: {
-    model: User,
+    model: user,
     attributes: ['username']
     }
      }
     ]
     },
     {
-    model: Comment,
+    model: comment,
      attributes: ['id', 'comment_text', 'created_at'],
      include: {
-     model: Post,
+     model: post,
     attributes: ['title']
          }
     }
@@ -68,7 +68,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        const newUser = await User.create({
+        const newUser = await user.create({
             username: req.body.username,
             password: hashedPassword
         });
@@ -89,7 +89,7 @@ router.post('/', async (req, res) => {
 // POST /api/users/login - log in a user
 router.post('/login', async (req, res) => {
     try {
-        const user = await User.findOne({ where: { username: req.body.username } });
+        const user = await user.findOne({ where: { username: req.body.username } });
         if (!user) {
             res.status(400).json({ message: 'No user with that username!' });
             return;
@@ -128,7 +128,7 @@ router.post('/logout', (req, res) => {
 // PUT /api/users/:id - update a user's information
 router.put('/:id', async (req, res) => {
     try {
-        const updatedUser = await User.update(req.body, {
+        const updatedUser = await user.update(req.body, {
             individualHooks: true,
             where: {
                 id: req.params.id
@@ -150,7 +150,7 @@ router.put('/:id', async (req, res) => {
 // DELETE /api/users/:id - delete a user
 router.delete('/:id', async (req, res) => {
     try {
-        const deletedUser = await User.destroy({
+        const deletedUser = await user.destroy({
             where: {
                 id: req.params.id
             }
@@ -169,3 +169,4 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+

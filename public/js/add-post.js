@@ -18,12 +18,13 @@ async function newFormHandler(event) {
   });
 
   if (response.ok) {
-    console.log('Post created, redirecting to homepage');
+    console.log('post created, redirecting to homepage');
     document.location.replace('/'); 
   } else {
     alert('Failed to create post: ' + await response.text());
   }
 }
+
 
 
 

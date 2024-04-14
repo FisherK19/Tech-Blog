@@ -8,14 +8,11 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const cors = require('cors');
 // Import models and routes
-const Post = require('./models/post');
-const { User } = require('./models');
+const { post, user } = require('./models');
 const routes = require('./controllers');
 // Helper functions
 const helpers = require('./utils/helper');
 const withAuth = require('./utils/auth');
-
-
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -66,7 +63,7 @@ app.get('/login', (req, res) => {
 app.post('/signup', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = await User.create({
+    const newUser = await user.create({
       username: req.body.username,
       password: hashedPassword,
     });
@@ -84,11 +81,11 @@ app.post('/signup', async (req, res) => {
 // Login request
 app.post('/login', async (req, res) => {
   try {
-    const user = await User.findOne({ where: { username: req.body.username } });
+    const userInstance = await user.findOne({ where: { username: req.body.username } });
 
-    if (user && await bcrypt.compare(req.body.password, user.password)) {
+    if (userInstance && await bcrypt.compare(req.body.password, userInstance.password)) {
       req.session.loggedIn = true;
-      req.session.user_id = user.id;
+      req.session.user_id = userInstance.id;
 
       res.redirect('/dashboard');
     } else {
@@ -102,7 +99,7 @@ app.post('/login', async (req, res) => {
 
 app.post('/api/posts', withAuth, async (req, res) => {
   try {
-    const newPost = await Post.create({
+    const newPost = await post.create({
       title: req.body.title,
       body: req.body.body,
       user_id: req.session.user_id
@@ -128,7 +125,6 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
-
 
 // Start the Server
 sequelize.sync({ force: false }).then(() => {

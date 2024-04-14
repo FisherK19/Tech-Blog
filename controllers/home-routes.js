@@ -1,5 +1,5 @@
 const sequelize = require('../config/connection');
-const { Post, User, Comment } = require('../models');
+const { post, user, comment } = require('../models');
 const router = require('express').Router();
 const withAuth = require('../utils/auth');
 const bcrypt = require('bcrypt'); // Ensure bcrypt is included if you're using it for password comparison
@@ -7,17 +7,17 @@ const bcrypt = require('bcrypt'); // Ensure bcrypt is included if you're using i
 // Route to get the homepage with posts
 router.get('/', (req, res) => {
     console.log('Fetching posts...');
-    Post.findAll({
+    post.findAll({
         attributes: ['id', 'title', 'body', 'created_at'],
         include: [{
-            model: Comment,
+            model: comment,
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
             include: {
-                model: User,
+                model: user,
                 attributes: ['username']
             }
         }, {
-            model: User,
+            model: user,
             attributes: ['username']
         }],
         order: [['created_at', 'DESC']],
@@ -47,7 +47,7 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        const userData = await User.findOne({ where: { username: req.body.username } });
+        const userData = await user.findOne({ where: { username: req.body.username } });
         if (!userData) {
             res.status(400).json({ message: 'Incorrect email or password, please try again' });
             return;
