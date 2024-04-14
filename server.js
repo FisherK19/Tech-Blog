@@ -108,7 +108,11 @@ app.post('/api/posts', withAuth, async (req, res) => {
       user_id: req.session.user_id
     });
 
-    res.status(201).json(newPost); 
+    // Redirect to the home page after successfully creating the post
+    res.redirect('/'); 
+
+    // Optionally, you can also send a success message along with the redirect
+    // res.redirect('/').json({ message: 'Post created successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to create post' });
