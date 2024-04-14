@@ -126,5 +126,8 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // Start the Server
 sequelize.sync({ force: false }).then(() => {
+  console.log('Database & tables created!');
   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
+}).catch((error) => {
+  console.error('Unable to connect to the database:', error);
 });
