@@ -3,7 +3,7 @@ const sequelize = require("../config/connection");
 
 class post extends Model {}
 
-Post.init(
+post.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -39,4 +39,4 @@ Post.init(
   }
 );
 
-module.exports = Post;
+module.exports = post;
