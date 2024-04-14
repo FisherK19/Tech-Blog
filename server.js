@@ -59,6 +59,21 @@ app.get('/login', (req, res) => {
   res.render('login', { layout: 'main' });
 });
 
+// Route to fetch all posts and render them using Handlebars
+app.get('/', async (req, res) => {
+  try {
+    // Fetch all posts from the database
+    const posts = await post.findAll();
+
+    // Render the 'home' template with the fetched posts
+    res.render('home', { posts });
+  } catch (error) {
+    console.error(error);
+    // Handle errors appropriately
+    res.status(500).send('Internal server error');
+  }
+});
+
 // Signup request
 app.post('/signup', async (req, res) => {
   try {
