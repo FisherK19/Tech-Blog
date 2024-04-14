@@ -35,7 +35,7 @@ post.init(
     timestamps: true,
     freezeTableName: true,
     underscored: true,
-    modelName: 'post' // Use lowercase 'post' for the model name
+    modelName: 'post' 
   }
 );
 
