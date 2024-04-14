@@ -125,6 +125,6 @@ app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 
 // Start the Server
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 });
