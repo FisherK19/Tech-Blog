@@ -121,7 +121,10 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
+
 // Start the Server
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
   app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 });
