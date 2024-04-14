@@ -8,11 +8,13 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const cors = require('cors');
 // Import models and routes
+const Post = require('./models/post');
 const { User } = require('./models');
 const routes = require('./controllers');
 // Helper functions
 const helpers = require('./utils/helper');
 const withAuth = require('./utils/auth');
+
 
 
 const app = express();
