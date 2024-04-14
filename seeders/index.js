@@ -1,55 +1,22 @@
-'use strict';
+// Import the seed data functions
+const seedUsers = require("./user");
+const seedPosts = require("./post");
+const seedComments = require("./comment");
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '../config/config.json')[env];
-const db = {};
+// Import the sequelize connection from ../config/connection
+const sequelize = require("../config/connection");
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+// Function to seed all data by calling the three seed functions in sequence
+const seedAll = async () => {
+  // Sync the sequelize models and wipe out the tables
+  await sequelize.sync({ force: true });
+  // Call each of the seed data functions
+  await seedUsers();
+  await seedPosts();
+  await seedComments();
+  // Exit the process with a successful exit code
+  process.exit(0);
+};
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
-
-(async () => {
-  try {
-    await sequelize.sync({ force: true }); 
-    console.log('Database synced successfully');
-    
-    // Run seeders here
-    const commentSeeds = require('./comment-seeds');
-    await commentSeeds.up();
-
-    const postSeeds = require('./post-seeds');
-    await postSeeds.up();
-
-    const userSeeds = require('./user-seeds');
-    await userSeeds.up();
-
-    console.log('Seed data inserted successfully');
-  } catch (error) {
-    console.error('Error syncing database:', error);
-  }
-})();
-
-module.exports = db;
+// Call the seedAll function to seed the database
+seedAll();
