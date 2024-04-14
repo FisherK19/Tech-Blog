@@ -1,19 +1,33 @@
-'use strict';
+const { Post } = require("../models");
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('post', [
-      {
-        title: 'Sample Post Title',
-        body: 'This is a sample post body.',
-        user_id: 14,
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-    ], {});
+const postData = [
+  {
+    title: "First Blog Post",
+    content: "This is the content of the first blog post.",
+    user_id: 1,
   },
-
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('post', null, {});
+  {
+    title: "Second Blog Post",
+    content: "This is the content of the second blog post.",
+    user_id: 2,
+  },
+  {
+    title: "Third Blog Post",
+    content: "This is the content of the third blog post.",
+    user_id: 3,
+  },
+  {
+    title: "Fourth Blog Post",
+    content: "This is the content of the fourth blog post.",
+    user_id: 4,
+  },
+  {
+    title: "Fifth Blog Post",
+    content: "This is the content of the fifth blog post.",
+    user_id: 5,
   }
-};
+];
+
+const seedPosts = () => Post.bulkCreate(postData);
+
+module.exports = seedPosts;
