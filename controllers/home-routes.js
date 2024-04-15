@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt'); // Ensure bcrypt is included if you're using i
 router.get('/', (req, res) => {
     console.log('Fetching posts...');
     post.findAll({
-        attributes: ['id', 'body', 'created_at'], // Remove 'title' from here
+        attributes: ['id','created_at'], 
         include: [{
             model: comment,
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
