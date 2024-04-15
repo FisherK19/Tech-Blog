@@ -39,5 +39,9 @@ The Tech Blog is a web application that allows users to create, read, update, an
 ![Post](/public/images/tech-blog%20example.png)
 ![Dashboard](/public/images/tech-blog%20dashboard.png)
 
+## Deployed Link
+
+https://challenge-14-techblog-92a5190c102a.herokuapp.com/
+
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
