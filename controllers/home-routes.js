@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt'); // Ensure bcrypt is included if you're using i
 router.get('/', (req, res) => {
     console.log('Fetching posts...');
     post.findAll({
-        attributes: ['id', 'title', 'body', 'created_at'],
+        attributes: ['id', 'body', 'created_at'], // Remove 'title' from here
         include: [{
             model: comment,
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
@@ -35,6 +35,7 @@ router.get('/', (req, res) => {
         res.status(500).send(err.message);
     });
 });
+
 
 // Login route
 router.get('/login', (req, res) => {
