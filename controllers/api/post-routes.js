@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { Post, User, Comment } = require('../../models');
+const { post, user, comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // Get all posts with associated username
 router.get('/', async (req, res) => {
   try {
-    const postData = await Post.findAll({
-      include: [{ model: User, attributes: ['username'] }],
+    const postData = await post.findAll({
+      include: [{ model: user, attributes: ['username'] }],
     });
     res.status(200).json(postData);
   } catch (err) {
@@ -19,10 +19,10 @@ router.get('/', async (req, res) => {
 // Get one post by ID with associated username and comments
 router.get('/:id', async (req, res) => {
   try {
-    const postData = await Post.findByPk(req.params.id, {
+    const postData = await post.findByPk(req.params.id, {
       include: [
-        { model: User, attributes: ['username'] },
-        { model: Comment, include: [{ model: User, attributes: ['username'] }] },
+        { model: user, attributes: ['username'] },
+        { model: comment, include: [{ model: user, attributes: ['username'] }] },
       ],
     });
     if (!postData) {
@@ -46,7 +46,7 @@ router.post('/', withAuth, async (req, res) => {
       return;
     }
 
-    const newPost = await Post.create({
+    const newPost = await post.create({
       title,
       body,
       user_id: req.session.user_id,
@@ -65,7 +65,7 @@ router.put('/:id', withAuth, async (req, res) => {
     const { id } = req.params;
     const { title, body } = req.body;
 
-    const updatedPost = await Post.update(
+    const updatedPost = await post.update(
       { title, body },
       { where: { id, user_id: req.session.user_id } }
     );
@@ -88,9 +88,9 @@ router.delete('/:id', withAuth, async (req, res) => {
     const { id } = req.params;
 
     // Delete all comments related to the post
-    await Comment.destroy({ where: { post_id: id } });
+    await comment.destroy({ where: { post_id: id } });
 
-    const deletedPost = await Post.destroy({
+    const deletedPost = await post.destroy({
       where: { id, user_id: req.session.user_id },
     });
 
@@ -107,4 +107,5 @@ router.delete('/:id', withAuth, async (req, res) => {
 });
 
 module.exports = router;
+
 
